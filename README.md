@@ -1,5 +1,7 @@
 # okapi
-OpenAPI (AKA Swagger) document generation for Rust projects
+
+OpenAPI (AKA Swagger) document generation for Rust projects with the 0.5.0-dev version of rocket
+Only generates the open api spec, swagger UI does not work
 
 Work in progress!
 
@@ -65,11 +67,12 @@ pub fn make_rocket() -> rocket::Rocket {
 ```
 
 ## TODO
+
 - Tests
 - Documentation
 - Benchmark/optimise memory usage and allocations
   - Note to self: https://crates.io/crates/graphannis-malloc_size_of looks useful
 - Implement `OpenApiFrom___`/`OpenApiResponder` for more rocket/rocket-contrib types
 - Allow customizing openapi generation settings, e.g.
-    - custom json schema generation settings
-    - change path the document is hosted at
+  - custom json schema generation settings
+  - change path the document is hosted at
