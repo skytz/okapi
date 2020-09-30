@@ -3,6 +3,7 @@ use rocket::handler::{Handler, Outcome};
 use rocket::http::{ContentType, Method};
 use rocket::response::Content;
 use rocket::{Data, Request, Route};
+use async_trait::async_trait;
 
 /// A handler type that is used to serve the `openapi.json` files.
 #[derive(Clone)]
@@ -22,8 +23,9 @@ impl OpenApiHandler {
     }
 }
 
+#[async_trait]
 impl Handler for OpenApiHandler {
-    fn handle<'r>(&self, req: &'r Request, _: Data) -> Outcome<'r> {
+    async fn handle<'r, 's: 'r>(&'s self, req: &'r Request<'_>, data: Data) -> Outcome<'r> {
         let mut spec = self.spec.clone();
         let base_path = req
             .route()

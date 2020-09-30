@@ -2,6 +2,7 @@ use rocket::handler::{Handler, Outcome};
 use rocket::http::Method;
 use rocket::response::Redirect;
 use rocket::{Data, Request, Route};
+use async_trait::async_trait;
 
 /// A handler that instead of serving content always redirects to some specified destination URL.
 #[derive(Clone)]
@@ -23,8 +24,9 @@ impl RedirectHandler {
     }
 }
 
+#[async_trait]
 impl Handler for RedirectHandler {
-    fn handle<'r>(&self, req: &'r Request, _: Data) -> Outcome<'r> {
+    async fn handle<'r, 's: 'r>(&'s self, req: &'r Request<'_>, data: Data) -> Outcome<'r> {
         let path = req.route().unwrap().base().trim_end_matches('/');
         Outcome::from(req, Redirect::to(format!("{}/{}", path, self.dest)))
     }
